@@ -1,0 +1,175 @@
+﻿<Window x:Class="QuanLyBanHang.BieuDo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuanLyBanHang"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="Biểu đồ" Width="1300" Height="700" WindowStartupLocation="CenterScreen" Icon="Images/icon.ico">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Green"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border x:Name="Border1" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border1" Property="Background" Value="#F7D358"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <LinearGradientBrush x:Key="LightBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Offset="0.4" Color="LightGoldenrodYellow"/>
+                <GradientStop Offset="0.6" Color="BurlyWood"/>
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <!--TabItem Style-->
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid>
+                            <Border x:Name="Border1" BorderBrush="White" CornerRadius="3,3,0,0" >
+                                <ContentPresenter ContentSource="Header" Margin="0,5,5,5"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Border1" Property="Margin" Value="0,5,0,0"/>
+                                <Setter TargetName="Border1" Property="BorderThickness" Value="1" />
+                                <Setter TargetName="Border1" Property="Background" Value="black" />
+                                <Setter TargetName="Border1" Property="Height" Value="100" />
+                                <Setter TargetName="Border1" Property="Width" Value="250" />
+                                <Setter Property="Panel.ZIndex" Value="1" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border1" Property="Margin" Value="5,0,5,0"/>
+                                <Setter TargetName="Border1" Property="BorderThickness" Value="1,1,1,0" />
+                                <Setter TargetName="Border1" Property="Background" Value="Green"/>
+                                <!--Value="{StaticResource LightBackgroundBrush}"-->
+                                <Setter TargetName="Border1" Property="Height" Value="100" />
+                                <Setter TargetName="Border1" Property="Width" Value="250" />
+                                <Setter Property="Panel.ZIndex" Value="2" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--<DataTemplate x:Key="dMaHD">
+            <TextBlock Text="{Binding MaHD}"></TextBlock>
+        </DataTemplate>
+
+        <DataTemplate x:Key="dTenKhachHang">
+            <TextBlock TextAlignment="Center" Text="{Binding TenKhachHang}"></TextBlock>
+        </DataTemplate>
+
+        <DataTemplate x:Key="dTongTien">
+            <TextBlock TextAlignment="Center" Text="{Binding TongTien}"></TextBlock>
+        </DataTemplate>
+
+        <DataTemplate x:Key="dNgayLap">
+            <TextBlock TextAlignment="Center" Text="{Binding NgayLap}"></TextBlock>
+        </DataTemplate>
+
+        <DataTemplate x:Key="dTenNhanVien">
+            <TextBlock TextAlignment="Center" Text="{Binding TenNhanVien}"></TextBlock>
+        </DataTemplate>
+
+        <DataTemplate x:Key="dTrangThai">
+            <TextBlock TextAlignment="Center" Text="{Binding TrangThai}"></TextBlock>
+        </DataTemplate>-->
+    </Window.Resources>
+    <Grid>
+        <TabControl FontSize="18" FontWeight="DemiBold" Background="Black">
+            <!--1-->
+            <TabItem>
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Image Source="images/List-Yellow.png" Width="60" Height="60" />
+                            <TextBlock Text="Biểu đồ cột" Margin="5,0,0,0" Width="180" />
+                        </StackPanel>
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+
+                <StackPanel>
+                    <WrapPanel Margin="0,20,0,0">
+                        <TextBlock Text="Từ ngày : " />
+                        <DatePicker Name="NgayTruoc"/>
+                        <TextBlock Text="đến ngày : " />
+                        <DatePicker Name="NgaySau"/>
+                        <Button Name="btnThongke" Content="Thống Kê" Height="25" Width="155" Margin="10,0,0,0" Foreground="Black" Background="#F7E860" Click="BtnThongke_Click"/>
+                    </WrapPanel>
+
+                   
+                    <lvc:CartesianChart Height="500" x:Name="CartesianChart" LegendLocation="Left">
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Thống kê theo tháng" Labels="{Binding Labels}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Số lượng sản phẩm" LabelFormatter="{Binding Formatter}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                        
+                    </lvc:CartesianChart>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem>
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Image Source="images/List-Yellow.png" Width="60" Height="60" />
+                            <TextBlock Text="Biểu đồ đường" Margin="5,0,0,0" Width="180" />
+                        </StackPanel>
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+
+                <StackPanel>
+                    <WrapPanel Margin="0,20,0,0">
+                        <TextBlock Text="Từ ngày : " />
+                        <DatePicker Name="NgayTruocMonth"/>
+                        <TextBlock Text="đến ngày : " />
+                        <DatePicker Name="NgaySauMonth"/>
+                        <Button Name="btnThongkeMonth" Content="Thống Kê" Height="25" Width="155" Margin="10,0,0,0" Foreground="Black" Background="#F7E860" Click="BtnThongkeMonth_Click"/>
+                    </WrapPanel>
+
+                    <lvc:CartesianChart Height="500" Name="SeriesCollectionMonth" LegendLocation="Right" >
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Tổng doanh thu" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Tháng" Labels="{Binding Labels}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                    </lvc:CartesianChart>
+                </StackPanel>
+                
+            </TabItem>
+
+            <TabItem>
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Image Source="images/List-Yellow.png" Width="60" Height="60" />
+                            <TextBlock Text="Biểu đồ tròn" Margin="5,0,0,0" Width="180" />
+                        </StackPanel>
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

@@ -1,0 +1,60 @@
+﻿<Window x:Class="QuanLyBanHang.DangNhap"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuanLyBanHang"
+        mc:Ignorable="d"
+        Title="Đăng nhập" Height="340" Width="550" WindowStartupLocation="CenterScreen" Icon="Images/icon.ico">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Green"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border x:Name="Border1" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border1" Property="Background" Value="#F7D358"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="1.5*" />
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid  Grid.Row="0" Background="Black">
+            <TextBlock Margin="7,7,0,0" HorizontalAlignment="Left" FontWeight="Bold" FontSize="25" Foreground="#F7E860">Đăng nhập</TextBlock>
+        </Grid>
+        <StackPanel Grid.Row="1" Margin="10" HorizontalAlignment="Center">
+            <Border Background="Black"  BorderThickness="3,0,0,3">
+                <WrapPanel  Margin="0,10,0,0" HorizontalAlignment="Stretch">
+                    <Image Width="50" Height="auto" 
+                       Source="images/User-Yellow.png"></Image>
+                    <TextBox Name="txtTaiKhoan" FontSize="18" Height="auto" HorizontalAlignment="Stretch" Width="451"/>
+                </WrapPanel>
+            </Border>
+            <Border Margin="0,2,0,0" Background="Black" BorderThickness="3,0,0,3">
+                <WrapPanel Margin="0,10,0,0" HorizontalAlignment="Stretch">
+                    <Image Width="50" Height="auto" 
+                       Source="images/Key-Yellow.png"></Image>
+                    <PasswordBox Name="passMatKhau" FontSize="18" HorizontalAlignment="Stretch" Width="452" Height="auto"/>
+                </WrapPanel>
+            </Border>
+            <Button Name="btnDangNhap" Foreground="Black" IsDefault="True" Background="#F7E860" FontSize="22" HorizontalAlignment="Center" Height="39" Margin="0,10,0,0" Width="200" Click="BtnDangNhap_Click">Đăng nhập</Button>
+        </StackPanel>
+        <Grid Grid.Row="2" Background="Black" >
+            <TextBlock Margin="0,15,6,0" FontSize="13" FontWeight="Bold" Foreground="#F7E860"  HorizontalAlignment="Right">Ứng dụng quản lý bán hàng ver.2</TextBlock>
+        </Grid>
+    </Grid>
+</Window>
